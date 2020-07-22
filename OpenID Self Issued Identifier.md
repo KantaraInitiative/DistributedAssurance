@@ -21,6 +21,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 ## Introduction
 
 
+
 ### Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -36,9 +37,9 @@ capitals, as shown here.
 ## 1. Scope
 
 This document specifies the methods for an application to:
-* support self-issued identifiers in an OpenID Connect environment (It does not support bearer tokens)
+* support self-issued identifiers in an OpenID Connect environment 
 * enable a strong identifier that can survive changes to current authentication methods.
-* format tokens that are bound to the issuer and recipient.
+* format tokens that are bound to the issuer and recipient. (It does not support bearer tokens)
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -89,20 +90,24 @@ The following referenced documents are indispensable for the application of this
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [OpenID Connect Core][OIDC] apply.
 
+**Auenticator** - A collection of software and hardware that can be used to authenticate the user
+
+**UA** - User Agent, which is the holder of the credential used by the user to authenticate themself and issue authorization tokens to the Resource Servers authorizing access to user Personal Information.
+
 ## 4. Symbols and abbreviated terms
+ticate a user.
 
 **HTTP** - Hyper Text Transfer Protocol
 
 **TLS** - Transport Layer Security
 
-**UA** - User Agent, which is the holder of the credential used by the user to authenticate themself and issue authorization tokens to the Resource Servers authorizing access to user Personal Information.
-
+**URL** - Uniform Resource Locator
 
 ## 5. OpenID Self Issued Identifiers
 
 ### 5.1 Introduction
 
-Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the OpenID Connect Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to conset to enable access to that Personal information. Note that Claims providers can be used by the User Agent to aquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification.  (nb -- that last statemen is subject to review)
+Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to conset to enable access to that Personal information. Note that Claims providers can be used by the User Agent to aquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification.  (nb -- that last statemen is subject to review)
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
@@ -115,16 +120,29 @@ This specification assumes that the user has continuing needs to use their ident
 #### 3 A key has become compromised or is otherwise no longer usable.
 #### 4 The user wishes to enable more than one authenticator to access their resources.
 
-For these or anyother reason the user needs to enable a different key and bind that key to their resources. This document is desinged to provide secure means for that recovery
+For these or anyother reason the user needs to enable a different key and bind that key to their resources. This document is desinged to provide secure means for that recovery.
 
+(The point here was to include some of the recovery methods, which i know markus was looking at. My question is whether any recovery mechanism should be normative.  My guess is that they are all non-normative and belong in a secion below.)
+
+### 5.3 Persistant User ID
+
+The [OIDC] specification defines the format of the subject ID [sub] to be a type of key id. That can be used for the life of the key, but when any of he above recovery condistions are triggered the user that wants to have continued access to the resources that were bound to that key must have some means to seamlessly maintain that access.
+
+Wherever a self-issued ID meet the requiremet for recovery, it will be carried in the transmission packets as a [puid]. The data in the field must be structured as a URL or URI. The intention is that the [puid] would servive any of the revcovery conditions listed in section 5.2. It is possible that the nature of the PUID binds it to authentiction methods that become compromised or obsoleted. In that case it may not be possible for the PUID to be reused.
+
+Resolution of the PUID into a set of current keys and authenticators ---  is a nice to have, but is it required for this purpose??
 
 # 6. Security Considerations
 
-TBD
+The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets.
 
 # 7. Privacy Considerations
 
-TBD
+The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets.
+
+# 8. IANA Considerations
+puid -  as an element
+guid - as a URI
 
 # Authors
 
