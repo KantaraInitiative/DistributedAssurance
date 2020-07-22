@@ -141,6 +141,8 @@ A colletion of attributes or other data elements and are collected together into
 
 This is the only token created by a User Agent to carry identifier information for a user. It is based on the [OIDC] IdToken and includes all of the mandatory filed from that token. In this specification it is always signed by the key identified in the sub element and always sent as a jose token. It may optionally be encrypted.
 
+The ooncept of ephemeeral id endpoint for temporary storage of iID Tokens as well as the use of referenences to ID Tokens needs to be discussed.
+
 # 6. Security Considerations
 
 The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets.
