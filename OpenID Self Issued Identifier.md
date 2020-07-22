@@ -95,7 +95,8 @@ For the purpose of this document, the terms defined in [RFC6749], [OpenID Connec
 **UA** - User Agent, which is the holder of the credential used by the user to authenticate themself and issue authorization tokens to the Resource Servers authorizing access to user Personal Information.
 
 ## 4. Symbols and abbreviated terms
-ticate a user.
+
+**CP** - any of Claim Provider, Certificate Provider, Credentail Service Provider
 
 **HTTP** - Hyper Text Transfer Protocol
 
@@ -132,17 +133,33 @@ Wherever a self-issued ID meet the requiremet for recovery, it will be carried i
 
 Resolution of the PUID into a set of current keys and authenticators ---  is a nice to have, but is it required for this purpose??
 
+### 5.4 Niblet (searching for an acceptable alternative name)
+
+A colletion of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added. The header of the niblet must identify the signer and encrypiton used. This has he same structure as a signed jwt, but is intended to be embedded in side a jwt. A niblet is always treated like a string in the enclosing jwt.
+
+### 5.5 IdToken
+
+This is the only token created by a User Agent to carry identifier information for a user. It is based on the [OIDC] IdToken and includes all of the mandatory filed from that token. In this specification it is always signed by the key identified in the sub element and always sent as a jose token. It may optionally be encrypted.
+
 # 6. Security Considerations
 
 The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets.
 
 # 7. Privacy Considerations
 
-The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets.
+The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets. (question, should tls be MUST?)
 
 # 8. IANA Considerations
 puid -  as an element
 guid - as a URI
+
+# 9. References
+## 9.1 Normative References
+## 9.2 Non-normative References
+
+- [Claims Aggregation] (https://bitbucket.org/edmund_jay/oidc-claims-aggregation/src/master/OpenID%20Connect%20Claims%20Aggregation.md)
+- [Client Bound Assertions]
+(https://mattrglobal.github.io/oidc-client-bound-assertions-spec/) 
 
 # Authors
 
