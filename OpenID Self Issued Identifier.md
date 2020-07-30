@@ -121,7 +121,7 @@ The other potential breaking change would be the use of a different redirection 
 
 This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. The following are some of the known problems with loss of use of an authentication factor include:
 * 1 The device holding the authentication factor is lost.
-* 2 The algorithm or key strength is declared obsolete or unable to continue to protect the users factors.
+* 2 The algorithm or key strength is declared obsolete or unable to continue to protect the user's authentication factors.
 * 3 A key has become compromised or is otherwise no longer usable.
 * 4 The user wishes to enable more than one authenticator to access their resources.
 
@@ -133,9 +133,13 @@ Note that recovery of the user access, which is the topic of this specification,
 Some thoughts:
 * Key is stored in a pfx file that is encrypted to a user secret.
 * Key is contained in a remove data store and can be restored if the user is authenticated.
-* Key could be shared between multiple user devices and any one could back up the other.
+* Key could be shared between multiple user devices and any one could back up the other. (Android already enables this.)
 * A new key could be generated and bound the the user's PUID.
-* A key fob is created that can be used to initialize the user's identity on any device.
+* WebAuthn dual PRF function that takes two salts are returns two keys. That with 2FA to get decrytption key for user secret.
+* OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html
+* John Bradely: You could also include the WebAuthn credentialID in the did document as part of bootstraping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet.
+The following two helper functions can be used to enable recovery.
+* A FIDO / Web AuthN key is created on a key fob that can be used to initialize the user's identity on any device.
 * A QR could could be used to provide the secret information to unlock the user's secrets.
 
 ### 5.3 Persistent User ID
@@ -190,3 +194,5 @@ The user interchanges that carry user private information must be encrypted. Thi
 # Authors
 
 * Tom Jones
+* Tobias Looker
+
