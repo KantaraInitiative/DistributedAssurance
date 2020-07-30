@@ -21,6 +21,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 ## Introduction
 
 
+
 ### Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -36,9 +37,9 @@ capitals, as shown here.
 ## 1. Scope
 
 This document specifies the methods for an application to:
-* support self-issued identifiers in an OpenID Connect environment (It does not support bearer tokens)
+* support self-issued identifiers in an OpenID Connect environment 
 * enable a strong identifier that can survive changes to current authentication methods.
-* format tokens that are bound to the issuer and recipient.
+* format tokens that are bound to the issuer and recipient. (It does not support bearer tokens)
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -89,42 +90,102 @@ The following referenced documents are indispensable for the application of this
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [OpenID Connect Core][OIDC] apply.
 
+**Authenticator** - A collection of software and hardware that can be used to authenticate the user
+
+**UA** - User Agent, which is the holder of the credential used by the user to authenticate themselves and issue authorization tokens to the Resource Servers authorizing access to user Personal Information.
+
 ## 4. Symbols and abbreviated terms
+
+**CP** - any of Claim Provider, Certificate Provider, Credential Service Provider
 
 **HTTP** - Hyper Text Transfer Protocol
 
 **TLS** - Transport Layer Security
 
-**UA** - User Agent, which is the holder of the credential used by the user to authenticate themself and issue authorization tokens to the Resource Servers authorizing access to user Personal Information.
-
+**URL** - Uniform Resource Locator
 
 ## 5. OpenID Self Issued Identifiers
 
 ### 5.1 Introduction
 
-Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the OpenID Connect Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to conset to enable access to that Personal information. Note that Claims providers can be used by the User Agent to aquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification.  (nb -- that last statemen is subject to review)
+Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification.  (nb -- that last statement is subject to review)
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
+
+The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. We should at least consider a breaking change to let the SUB serve as a real subject ID. The alternate is to leave it as a key ID and the the PUID described below act in the original meaning of ID. This spec assumes that the user ID is long lived.
+
+The other potential breaking change would be the use of a different redirection method in place of, or as well as, the self-issue.me in the core spec.
 
 
 ### 5.2 Recovery
 
-This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authntiction factors become obsolete or are lost. The following are some of the known problems with loss of use of an authentication factor include:
-#### 1 The device holding the authentication factor is lost.
-#### 2 The algorithm or key strength is declared obsolete or unable to continue to protect the users factors.
-#### 3 A key has become compromised or is otherwise no longer usable.
-#### 4 The user wishes to enable more than one authenticator to access their resources.
+This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. The following are some of the known problems with loss of use of an authentication factor include:
+* 1 The device holding the authentication factor is lost.
+* 2 The algorithm or key strength is declared obsolete or unable to continue to protect the users factors.
+* 3 A key has become compromised or is otherwise no longer usable.
+* 4 The user wishes to enable more than one authenticator to access their resources.
 
-For these or anyother reason the user needs to enable a different key and bind that key to their resources. This document is desinged to provide secure means for that recovery
+For these or any other reason the user needs to enable a different key and bind that key to their resources. This document is designed to provide secure means for that recovery.
 
+Note that recovery of the user access, which is the topic of this specification, may be a part of a larger recovery of user data.
+
+(The point here was to include some of the recovery methods, which i know Markus was looking at. My question is whether any recovery mechanism should be normative.  (My guess is that they are all non-normative and belong in a section below.)
+Some thoughts:
+* Key is stored in a pfx file that is encrypted to a user secret.
+* Key is contained in a remove data store and can be restored if the user is authenticated.
+* Key could be shared between multiple user devices and any one could back up the other.
+* A new key could be generated and bound the the user's PUID.
+* A key fob is created that can be used to initialize the user's identity on any device.
+* A QR could could be used to provide the secret information to unlock the user's secrets.
+
+### 5.3 Persistent User ID
+
+The [OIDC] specification defines the format of the subject ID [sub] to be a type of key id. That can be used for the life of the key, but when any of the above recovery conditions are triggered the user that wants to have continued access to the resources that were bound to that key must have some means to seamlessly maintain that access.
+
+Wherever a self-issued ID meets the requirement for recovery, it will be carried in the transmission packets as a [puid]. The data in the field must be structured as a URL or URI. The intention is that the [puid] would survive any of the recovery conditions listed in section 5.2. It is possible that the nature of the PUID binds it to authentication methods that become compromised or obsoleted. In that case it may not be possible for the PUID to be reused.
+
+Resolution of the PUID into a set of current keys and authenticators -- is a nice to have, but is it required for this purpose??
+
+### 5.4 Token Niblet (searching for an acceptable alternative name)
+
+A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but should probably be discouraged. The header of the token niblet must identify the signer and cryptography used. This has he same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A token niblet is always treated like a string in the enclosing jwt.
+
+### 5.5 IdToken
+
+This is the only token created by a User Agent to carry identifier information for a user. It is based on the [OIDC] IdToken and includes all of the mandatory fields from that token. In this specification it is always signed by the key identified in the sub element and always sent as a jose token. It may optionally be encrypted.
+
+The concept of ephemeral id endpoint for temporary storage of iID Tokens as well as the use of references to ID Tokens needs to be discussed.
+
+### 5.6 Flows
+
+The only flow considered in the core spec is implicit, where the user device sends a single ID Token that is the sum of all the claims or grants that a user is providing the RP.
+
+An alternate flow is the device flow where the user is operating on a large form device (like a laptop) using their phone as an authenticator.
+
+### 5.7 Formats
+The current jwt format would remain as the required format, but others could be standardized including:
+* json-ld
+* cbor
+* cbor-ld. https://docs.google.com/presentation/d/1ksh-gUdjJJwDpdleasvs9aRXEmeRvqhkVWqeitx5ZAE/edit#slide=id.gc6f9e470d_0_0
 
 # 6. Security Considerations
 
-TBD
+TK
 
 # 7. Privacy Considerations
 
-TBD
+The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets. (question, should pls or alternate be MUST?)
+
+# 8. IANA Considerations
+* puid -  as an element
+* guid - as a URI
+
+# 9. References
+## 9.1 Normative References
+## 9.2 Non-normative References
+
+- [Claims Aggregation]: https://bitbucket.org/edmund_jay/oidc-claims-aggregation/src/master/OpenID%20Connect%20Claims%20Aggregation.md
+- [Client Bound Assertions]: https://mattrglobal.github.io/oidc-client-bound-assertions-spec/
 
 # Authors
 
