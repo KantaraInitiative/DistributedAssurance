@@ -203,7 +203,7 @@ The user interchanges that carry user private information must be encrypted. Thi
 [DCM] - There is also some work on "Decentralized Key Management Systems" (DKMS) in Hyperleder Indy:
 [DCM]:https://github.com/hyperledger/aries-rfcs/blob/master/concepts/0051-dkms/dkms-v4.md
 
-[Claims Aggregation]-Claims Aggregation
+[Claims Aggregation] - Claims Aggregation
 [Claims Aggregation]: https://bitbucket.org/edmund_jay/oidc-claims-aggregation/src/master/OpenID%20Connect%20Claims%20Aggregation.md
 
 [Client Bound Assertions] - Client Bound Assertions
