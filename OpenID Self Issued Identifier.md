@@ -188,18 +188,24 @@ The user interchanges that carry user private information must be encrypted. Thi
 ## 9.1 Normative References
 ## 9.2 Non-normative References
 
-[Did Recovry] - DIF I&D WG: Starting work on cryptographic secret recovery
-[Did Recovry]: https://medium.com/decentralized-identity/dif-id-wg-starting-work-on-cryptographic-secret-recovery-204117b6a2ab
+[Did Recovery] - DIF I&D WG: Starting work on cryptographic secret recovery
+[Did Recovery]: https://medium.com/decentralized-identity/dif-id-wg-starting-work-on-cryptographic-secret-recovery-204117b6a2ab
+
 [Fuzzy Vault] - Fuzzy Vault Encryption (contributed by Microsoft):
 [Fuzzy Vault]: https://github.com/decentralized-identity/fuzzy-encryption/blob/master/fuzzy-encryption-construction.pdf
-[Horcrux] = Horcrux Protocol (contributed by VeridiumID):
+
+[Horcrux] - Horcrux Protocol (contributed by VeridiumID):
 [Horcrux]: https://github.com/decentralized-identity/horcrux/
+
 [SeedQuest] - SeedQuest has been discussed quite a bit on the various DIF calls:
 [SeedQuest]: https://github.com/reputage/seedQuest
-There is also some work on "Decentralized Key Management Systems" (DKMS) in Hyperleder Indy:
-https://github.com/hyperledger/aries-rfcs/blob/master/concepts/0051-dkms/dkms-v4.md
+
+[DCM] - There is also some work on "Decentralized Key Management Systems" (DKMS) in Hyperleder Indy:
+[DCM]:https://github.com/hyperledger/aries-rfcs/blob/master/concepts/0051-dkms/dkms-v4.md
+
 [Claims Aggregation]-Claims Aggregation
 [Claims Aggregation]: https://bitbucket.org/edmund_jay/oidc-claims-aggregation/src/master/OpenID%20Connect%20Claims%20Aggregation.md
+
 [Client Bound Assertions] - Client Bound Assertions
 [Client Bound Assertions]: https://mattrglobal.github.io/oidc-client-bound-assertions-spec/
 
