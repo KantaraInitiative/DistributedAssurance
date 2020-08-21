@@ -108,19 +108,22 @@ For the purpose of this document, the terms defined in [RFC6749], [OpenID Connec
 
 ### 5.1 Introduction
 
-Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification.  (nb -- that last statement is subject to review)
+Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification but broadens the scope of meaning to include indirect references to the key and key location.  (nb -- that last statement might be better worded)
 
-OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
 ### 5.2 Subject Identifier
 
 The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document will consider that a key id can still be used in this sense, but adds a minor breaking change to say that the key ID MUST NOT include a colon (":"). Then any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. This URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
+OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
+
+### 5.3 Redirection Methods
+
 The other potential breaking change would be the use of a different redirection method in place of, or as well as, the self-issued.me in the core spec.
 
-### 5.3 Recovery
+### 5.4 Recovery
 
-This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. The following are some of the known problems with loss of use of an authentication factor include:
+This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. More description can be found in this description of [Did Recovery]. The following are some of the known ways that loss of use of an authentication factor can occur:
 * 1 The device holding the authentication factor is lost.
 * 2 The algorithm or key strength is declared obsolete or unable to continue to protect the user's authentication factors.
 * 3 A key has become compromised or is otherwise no longer usable.
@@ -128,7 +131,7 @@ This specification assumes that the user has continuing needs to use their ident
 
 For these or any other reason the user needs to enable a different key and bind that key to their resources. This document is designed to provide secure means for that recovery.
 
-Note that recovery of the user access, which is the topic of this specification, may be a part of a larger recovery of user data.
+Note that recovery of the user access, which is the topic of this specification, may be a part of a larger process that includes the recovery of user data.
 
 (The point here was to include some of the recovery methods, which i know Markus was looking at. My question is whether any recovery mechanism should be normative.  (My guess is that they are all non-normative and belong in a section below.)
 Some thoughts:
@@ -153,17 +156,17 @@ Wherever a self-issued ID meets the requirement for recovery, it will be carried
 
 Resolution of the PUID into a set of current keys and authenticators -- is a nice to have, but is it required for this purpose??
 
-### 5.4 Token Niblet (searching for an acceptable alternative name)
+### 5.5 Token Niblet (searching for an acceptable alternative name)
 
 A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but should probably be discouraged. The header of the token niblet must identify the signer and cryptography used. This has he same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A token niblet is always treated like a string in the enclosing jwt.
 
-### 5.5 IdToken
+### 5.6 IdToken
 
 This is the only token created by a User Agent to carry identifier information for a user. It is based on the [OIDC] IdToken and includes all of the mandatory fields from that token. In this specification it is always signed by the key identified in the sub element and always sent as a jose token. It may optionally be encrypted.
 
 The concept of ephemeral id endpoint for temporary storage of iID Tokens as well as the use of references to ID Tokens needs to be discussed.
 
-### 5.6 Flows
+### 5.7 Flows
 
 The only flow considered in the core spec is implicit, where the user device sends a single ID Token that is the sum of all the claims or grants that a user is providing the RP.
 
@@ -190,7 +193,7 @@ The user interchanges that carry user private information must be encrypted. Thi
 # 9. References
 ## 9.1 Normative References
 
-[DID-CORE] - Decentralized Identifiers (DIDs) v1.0. Drummond Reed; Manu Sporny; Markus Sabadello; Dave Longley; Christopher Allen; Jonathan Holt. W3C. 31 July 2020. W3C Working Draft.
+[DID-CORE] - Decentralized Identifiers (DIDs) v1.0. Drummond Reed + 5, 2020-07-31. W3C Working Draft.
 [DID-CORE]: https://www.w3.org/TR/did-core/
 
 ## 9.2 Non-normative References
@@ -198,17 +201,17 @@ The user interchanges that carry user private information must be encrypted. Thi
 [Did Recovery] - DIF I&D WG: Starting work on cryptographic secret recovery
 [Did Recovery]: https://medium.com/decentralized-identity/dif-id-wg-starting-work-on-cryptographic-secret-recovery-204117b6a2ab
 
-[Fuzzy Vault] - Fuzzy Vault Encryption (contributed by Microsoft):
+[Fuzzy Vault] - Fuzzy Vault Encryption (contributed by Microsoft)
 [Fuzzy Vault]: https://github.com/decentralized-identity/fuzzy-encryption/blob/master/fuzzy-encryption-construction.pdf
 
-[Horcrux] - Horcrux Protocol (contributed by VeridiumID):
+[Horcrux] - Horcrux Protocol (contributed by VeridiumID)
 [Horcrux]: https://github.com/decentralized-identity/horcrux/
 
-[SeedQuest] - SeedQuest has been discussed quite a bit on the various DIF calls:
+[SeedQuest] - SeedQuest has been discussed quite a bit on the various DIF calls
 [SeedQuest]: https://github.com/reputage/seedQuest
 
-[DCM] - There is also some work on "Decentralized Key Management Systems" (DKMS) in Hyperleder Indy:
-[DCM]:https://github.com/hyperledger/aries-rfcs/blob/master/concepts/0051-dkms/dkms-v4.md
+[DCM] - There is also some work on "Decentralized Key Management Systems" (DKMS) in Hyperleder Indy
+[DCM]: https://github.com/hyperledger/aries-rfcs/blob/master/concepts/0051-dkms/dkms-v4.md
 
 [Claims Aggregation] - Claims Aggregation
 [Claims Aggregation]: https://bitbucket.org/edmund_jay/oidc-claims-aggregation/src/master/OpenID%20Connect%20Claims%20Aggregation.md
