@@ -112,12 +112,13 @@ Personal information can be stored in various places : locally or at various onl
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
-The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. We should at least consider a breaking change to let the SUB serve as a real subject ID. The alternate is to leave it as a key ID and the the PUID described below act in the original meaning of ID. This spec assumes that the user ID is long lived.
+### 5.2 Subject Identifier
 
-The other potential breaking change would be the use of a different redirection method in place of, or as well as, the self-issue.me in the core spec.
+The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document will consider that a key id can still be used in this sense, but adds a minor breaking change to say that the key MUST NOT include a colon (":"). Then any URL can be used to allow the SUB serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. This URL must provide a method to securely recover the key(s) that are used to this the [OIDC] JWT.
 
+The other potential breaking change would be the use of a different redirection method in place of, or as well as, the self-issued.me in the core spec.
 
-### 5.2 Recovery
+### 5.3 Recovery
 
 This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. The following are some of the known problems with loss of use of an authentication factor include:
 * 1 The device holding the authentication factor is lost.
@@ -142,7 +143,9 @@ The following two helper functions can be used to enable recovery.
 * A FIDO / Web AuthN key is created on a key fob that can be used to initialize the user's identity on any device.
 * A QR could could be used to provide the secret information to unlock the user's secrets.
 
-### 5.3 Persistent User ID
+### 5.x Persistent User ID
+
+(The need for this section is up for reconsideration)
 
 The [OIDC] specification defines the format of the subject ID [sub] to be a type of key id. That can be used for the life of the key, but when any of the above recovery conditions are triggered the user that wants to have continued access to the resources that were bound to that key must have some means to seamlessly maintain that access.
 
@@ -186,6 +189,10 @@ The user interchanges that carry user private information must be encrypted. Thi
 
 # 9. References
 ## 9.1 Normative References
+
+[DID-CORE] - Decentralized Identifiers (DIDs) v1.0. Drummond Reed; Manu Sporny; Markus Sabadello; Dave Longley; Christopher Allen; Jonathan Holt. W3C. 31 July 2020. W3C Working Draft.
+[DID-CORE]: https://www.w3.org/TR/did-core/
+
 ## 9.2 Non-normative References
 
 [Did Recovery] - DIF I&D WG: Starting work on cryptographic secret recovery
