@@ -114,7 +114,7 @@ OpenID Self Issued Identifiers provides a way for a user to exercise fine graine
 
 ### 5.2 Subject Identifier
 
-The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document will consider that a key id can still be used in this sense, but adds a minor breaking change to say that the key ID MUST NOT include a colon (":"). Then any URL can be used to allow the SUB serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. This URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
+The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document will consider that a key id can still be used in this sense, but adds a minor breaking change to say that the key ID MUST NOT include a colon (":"). Then any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. This URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
 The other potential breaking change would be the use of a different redirection method in place of, or as well as, the self-issued.me in the core spec.
 
