@@ -88,7 +88,7 @@ The following referenced documents are indispensable for the application of this
 
 
 ## 3. Terms and definitions
-For the purpose of this document, the terms defined in [RFC6749], [OpenID Connect Core][OIDC] apply.
+For the purpose of this document, the terms defined in [RFC6749] and [OpenID Connect Core][OIDC] apply.
 
 **Authenticator** - A collection of software and hardware that can be used to authenticate the user
 
@@ -131,18 +131,20 @@ This specification assumes that the user has continuing needs to use their ident
 
 For these or any other reason the user needs to enable a different key and bind that key to their resources. This document is designed to provide secure means for that recovery.
 
-Note that recovery of the user access, which is the topic of this specification, may be a part of a larger process that includes the recovery of user data.
+Note that recovery of the user access, which is the topic of this specification, may also be a part of a larger process that includes the recovery of user data.
 
-(The point here was to include some of the recovery methods, which i know Markus was looking at. My question is whether any recovery mechanism should be normative.  (My guess is that they are all non-normative and belong in a section below.)
+(The point here was to include some of the recovery methods inlcuding those generated in the DIF. It is an open question whether recovery mechanism should be normative or in an appendix.)
 Some thoughts:
-* Key is stored in a pfx file that is encrypted to a user secret.
-* Key is contained in a remove data store and can be restored if the user is authenticated.
+* Key is stored in a (e.g.) pfx file that is encrypted to a user secret.
+* Key is contained in a removable data store and can be restored if the user is authenticated.
 * Key could be shared between multiple user devices and any one could back up the other. (Android already enables this.)
-* A new key could be generated and bound the the user's PUID.
-* WebAuthn dual PRF function that takes two salts are returns two keys. That with 2FA to get decrytption key for user secret.
-* OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html
-* John Bradely: You could also include the WebAuthn credentialID in the did document as part of bootstraping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet.
-The following two helper functions can be used to enable recovery.
+* WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decrytption key for user secret.
+* A new key could be generated and bound to the user's ID. This would require assistance from a trusted server as well as some helper authentication factors.
+* OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
+* Include the WebAuthn credentialID in the did document as part of bootstraping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradely)
+* A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault].
+
+The following helper functions can be used to enable recovery when a trusted server approach is chosen.
 * A FIDO / Web AuthN key is created on a key fob that can be used to initialize the user's identity on any device.
 * A QR could could be used to provide the secret information to unlock the user's secrets.
 
