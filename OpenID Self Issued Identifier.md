@@ -138,6 +138,7 @@ Some thoughts:
 * Key is stored in a (e.g.) pfx file that is encrypted to a user secret.
 * Key is contained in a removable data store and can be restored if the user is authenticated.
 * Key could be shared between multiple user devices and any one could back up the other. (Android already enables this.)
+* A Seed can be used to create the key see exmaples in: [Emtrust], [SeedQuest] and [DCM],
 * WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decrytption key for user secret.
 * A new key could be generated and bound to the user's ID. This would require assistance from a trusted server as well as some helper authentication factors.
 * OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
@@ -208,6 +209,9 @@ The user interchanges that carry user private information must be encrypted. Thi
 
 [Horcrux] - Horcrux Protocol (contributed by VeridiumID)
 [Horcrux]: https://github.com/decentralized-identity/horcrux/
+
+[Emtrust] - Emtrust describes their seed technique for recreating a key from a phrase
+[Emtrust]: https://github.com/Halialabs/did-spec/blob/gh-pages/readme.md
 
 [SeedQuest] - SeedQuest has been discussed quite a bit on the various DIF calls
 [SeedQuest]: https://github.com/reputage/seedQuest
