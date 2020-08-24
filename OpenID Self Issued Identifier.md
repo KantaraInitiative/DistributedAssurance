@@ -144,6 +144,7 @@ Some thoughts:
 * OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
 * Include the WebAuthn credentialID in the did document as part of bootstraping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradely)
 * A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault].
+* A set of biometric data can be used to grant access as described in [Horcrux].
 
 The following helper functions can be used to enable recovery when a trusted server approach is chosen.
 * A FIDO / Web AuthN key is created on a key fob that can be used to initialize the user's identity on any device.
