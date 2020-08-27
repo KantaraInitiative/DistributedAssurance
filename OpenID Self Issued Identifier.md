@@ -108,18 +108,18 @@ For the purpose of this document, the terms defined in [RFC6749] and [OpenID Con
 
 ### 5.1 Introduction
 
-Personal information can be stored in various places : locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification but broadens the scope of meaning to include indirect references to the key and key location.  (nb -- that last statement might be better worded)
+Personal information can be stored in various places: locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification but broadens the scope of meaning to include indirect references to the key and key location.  (nb -- that last statement might be better worded)
 
 
 ### 5.2 Subject Identifier
 
-The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document will consider that a key id can still be used in this sense, but adds a minor breaking change to say that the key ID MUST NOT include a colon (":"). Then any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. This URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
+The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document proposes to redefine the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is local:{key id} which already excudes a colon (":"). Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
 ### 5.3 Redirection Methods
 
-The other potential breaking change would be the use of a different redirection method in place of, or as well as, the self-issued.me in the core spec.
+The other potential extension would allow the use of a different redirection method in place of, or as well as, the OPENID:// in the core spec section 7.3. This would require the user's OP to provider discovery in some sense prior to the client sending the request to the user.
 
 ### 5.4 Recovery
 
