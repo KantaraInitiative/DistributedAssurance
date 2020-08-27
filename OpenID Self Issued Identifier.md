@@ -113,7 +113,7 @@ Personal information can be stored in various places: locally or at various onli
 
 ### 5.2 Subject Identifier
 
-The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document proposes to redefine the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is local:{key id} which already excudes a colon (":"). Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
+The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document proposes to redefine the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}. "Key id" already excudes a colon (":"). Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
@@ -128,6 +128,7 @@ This specification assumes that the user has continuing needs to use their ident
 * 2 The algorithm or key strength is declared obsolete or unable to continue to protect the user's authentication factors.
 * 3 A key has become compromised or is otherwise no longer usable.
 * 4 The user wishes to enable more than one authenticator to access their resources.
+* 5 The identifier method has become obsolete or no longer supported.
 
 For these or any other reason the user needs to enable a different key and bind that key to their resources. This document is designed to provide secure means for that recovery.
 
