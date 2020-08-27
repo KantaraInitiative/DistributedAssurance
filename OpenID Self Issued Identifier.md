@@ -119,7 +119,7 @@ OpenID Self Issued Identifiers provides a way for a user to exercise fine graine
 
 ### 5.3 Redirection Methods
 
-The other potential extension would allow the use of a different redirection method in place of, or as well as, the OPENID:// in the core spec section 7.3. This would require the user's OP to provider discovery in some sense prior to the client sending the request to the user.
+The other potential extension would allow the use of a different redirection method in place of, or as well as, the OPENID:// in the core spec section 7.3. This would require the user's OP to provide discovery in some sense prior to the client sending the request to the user.
 
 ### 5.4 Recovery
 
