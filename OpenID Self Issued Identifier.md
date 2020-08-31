@@ -161,7 +161,7 @@ Wherever a self-issued ID meets the requirement for recovery, it will be carried
 
 Resolution of the PUID into a set of current keys and authenticators -- is a nice to have, but is it required for this purpose??
 
-Note that one other interpretation of the PUID is a "Previously Used ID" which could help with recovery efforts where major parts of the SUB where changed. For Example from did:method_1:{unique ID} to did:method_2:{unique ID} for case case where the {unique ID} might be invarient.
+Note that one other interpretation of the PUID is a "Previously Used ID" which could help with recovery efforts where major parts of the SUB where changed. For Example from did:method_1:{unique ID} to did:method_2:{unique ID} for the case where the {unique ID} might be invarient.
 
 ### 5.5 Token Niblet (searching for an acceptable alternative name)
 
