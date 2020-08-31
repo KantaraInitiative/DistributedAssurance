@@ -37,7 +37,7 @@ capitals, as shown here.
 ## 1. Scope
 
 This document specifies the methods for an application to:
-* support self-issued identifiers in an OpenID Connect environment 
+* support self-issued identifiers in an OpenID Connect environment, section 7 of the [OIDC].
 * enable a strong identifier that can survive changes to current authentication methods.
 * format tokens that are bound to the issuer and recipient. (It does not support bearer tokens)
 
