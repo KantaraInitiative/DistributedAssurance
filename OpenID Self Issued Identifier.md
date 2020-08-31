@@ -139,13 +139,13 @@ Some thoughts:
 * Key is stored in a (e.g.) pfx file that is encrypted to a user secret.
 * Key is contained in a removable data store and can be restored if the user is authenticated.
 * Key could be shared between multiple user devices and any one could back up the other. (Android already enables this.)
-* A Seed can be used to create the key see exmaples in: [Emtrust], [SeedQuest] and [DCM],
+* A Seed can be used to create the key see examples in: [Emtrust], [SeedQuest] and [DCM],
 * WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decrytption key for user secret.
-* A new key could be generated and bound to the user's ID. This would require assistance from a trusted server as well as some helper authentication factors.
 * OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
 * Include the WebAuthn credentialID in the did document as part of bootstraping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradely)
 * A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault].
 * A set of biometric data can be used to grant access as described in [Horcrux].
+* A new key could be generated and bound to the user's ID. This would require assistance from a trusted server as well as some helper authentication factors.
 
 The following helper functions can be used to enable recovery when a trusted server approach is chosen.
 * A FIDO / Web AuthN key is created on a key fob that can be used to initialize the user's identity on any device.
