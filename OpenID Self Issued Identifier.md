@@ -161,6 +161,8 @@ Wherever a self-issued ID meets the requirement for recovery, it will be carried
 
 Resolution of the PUID into a set of current keys and authenticators -- is a nice to have, but is it required for this purpose??
 
+Note that one other interpretation of the PUID is a "Previously Used ID" which could help with recovery efforts where major parts of the SUB where changed. For Example from did:method_1:{unique ID} to did:method_2:{unique ID} for case case where the {unique ID} might be invarient.
+
 ### 5.5 Token Niblet (searching for an acceptable alternative name)
 
 A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but should probably be discouraged. The header of the token niblet must identify the signer and cryptography used. This has he same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A token niblet is always treated like a string in the enclosing jwt.
