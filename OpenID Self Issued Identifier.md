@@ -47,11 +47,11 @@ This document describes an extension to the [OIDC], with particular attention to
 
 The OpenID Connect protocol for Self-Issued Identifiers follows these steps.
 ##### 1 The optional RP discovery endpoint may provide information about the method it supports.
-##### 2 The user agent may query the RP discovery endpoint to learn about polcies and methods of the RP.
-##### 3 The user browser natigates to the RP an selects to the "Personal Identifer" options on the RP web site.
+##### 2 The user agent may query the RP discovery endpoint to learn about policies and methods of the RP.
+##### 3 The user browser navigates to the RP and selects a "Personal Identifier" " option on the RP web site.
 ##### 4 The RP responds with a messaged directed to the User Agent via the browser.
 ##### 5 The User Agent may query the user for consent
-##### 6 The user slects any options on information to be provided to the RP.
+##### 6 The user selects any options on information to be provided to the RP.
 ##### 7 The user agent sends a identity Token to the RP
 ##### 8 The user - RP interchange continues on the user browser.
 
@@ -123,12 +123,14 @@ For the purpose of this document, the terms defined in [RFC6749] and [OpenID Con
 
 ### 5.1 Introduction
 
-Personal information can be stored in various places: locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification but broadens the scope of meaning to include indirect references to the key and key location.  (nb -- that last statement might be better worded)
+Personal information can be stored in various places: locally or at various online resource servers. The document targets the use of the [OIDC] (section 7) Self Issued Identifier to control access to that personal information by providing the means to those resource servers to recognize the user's intent to consent to enable access to that Personal information. Note that Claims providers can be used by the User Agent to acquire claims to be included in the Az Token. This document assumes that the "sub" element continues to be a key id as specified in the OpenID Connect specification but broadens the scope of meaning to include indirect references to the key and key location.  (n.b. -- that last statement might be better worded)
 
 
 ### 5.2 Subject Identifier
 
-The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec, and actually in violation of some of the other assertions about the SUB in that doc. This document proposes to redefine the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}. "Key id" already excudes a colon (":"). Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
+*** Warning *** A strict "key ID" as defined in [OIDC] will not work with this defition of the sub. But a work around is possible for sites that must deal with both defintions since a straight "Key id" already excludes a colon (":").
+
+The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec. This document proposes to redefine the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}.  Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
@@ -142,15 +144,15 @@ The other potential extension would allow the use of a different redirection met
 
 #### 5.3.2 User query of Relying Party Methods
 
-The Relying Part MAY provide a discovery endpoint where the user agent can discover methods beyound that provided in the default methods.
+The Relying Part MAY provide a discovery endpoint where the user agent can discover methods beyond that provided in the default methods.
 
 TK
 
-### 5.5 Request from the Relying Party to the User Agent
+### 5.4 Request from the Relying Party to the User Agent
 
 
 
-### 5.4 Recovery
+### 5.5 Recovery
 
 This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. More description can be found in this description of [Did Recovery]. The following are some of the known ways that loss of use of an authentication factor can occur:
 * 1 The device holding the authentication factor is lost.
@@ -163,7 +165,7 @@ For these or any other reason the user needs to enable a different key and bind 
 
 Note that recovery of the user access, which is the topic of this specification, may also be a part of a larger process that includes the recovery of user data.
 
-(The point here was to include some of the recovery methods inlcuding those generated in the DIF. It is an open question whether recovery mechanism should be normative or in an appendix.)
+(The point here was to include some of the recovery methods including those generated in the [DIF]. It is an open question whether recovery mechanism should be normative or in an appendix.)
 Some thoughts:
 * Key is stored in a (e.g.) pfx file that is encrypted to a user secret.
 * Key is contained in a removable data store and can be restored if the user is authenticated.
@@ -171,14 +173,14 @@ Some thoughts:
 * A Seed can be used to create the key see examples in: [Emtrust], [SeedQuest] and [DCM],
 * WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decrytption key for user secret.
 * OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
-* Include the WebAuthn credentialID in the did document as part of bootstraping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradely)
+* Include the WebAuthn credentialID in the did document as part of bootstrapping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradley)
 * A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault].
 * A set of biometric data can be used to grant access as described in [Horcrux].
 * A new key could be generated and bound to the user's ID. This would require assistance from a trusted server as well as some helper authentication factors.
 
 The following helper functions can be used to enable recovery when a trusted server approach is chosen.
 * A FIDO / Web AuthN key is created on a key fob that can be used to initialize the user's identity on any device.
-* A QR could could be used to provide the secret information to unlock the user's secrets.
+* A QR could be used to provide the secret information to unlock the user's secrets.
 
 ### 5.x Persistent User ID
 
@@ -190,7 +192,7 @@ Wherever a self-issued ID meets the requirement for recovery, it will be carried
 
 Resolution of the PUID into a set of current keys and authenticators -- is a nice to have, but is it required for this purpose??
 
-Note that one other interpretation of the PUID is a "Previously Used ID" which could help with recovery efforts where major parts of the SUB where changed. For Example from did:method_1:{unique ID} to did:method_2:{unique ID} for the case where the {unique ID} might be invarient.
+Note that one other interpretation of the PUID is a "Previously Used ID" which could help with recovery efforts where major parts of the SUB where changed. For Example from did:method_1:{unique ID} to did:method_2:{unique ID} for the case where the {unique ID} might be invariant.
 
 ### 5.5 Token Niblet (searching for an acceptable alternative name)
 
@@ -236,6 +238,9 @@ The user interchanges that carry user private information must be encrypted. Thi
 
 [Did Recovery] - DIF I&D WG: Starting work on cryptographic secret recovery
 [Did Recovery]: https://medium.com/decentralized-identity/dif-id-wg-starting-work-on-cryptographic-secret-recovery-204117b6a2ab
+
+[DIF] - Digital Identity Foundation.
+[DIF]: https://identity.foundation/
 
 [Fuzzy Vault] - Fuzzy Vault Encryption (contributed by Microsoft)
 [Fuzzy Vault]: https://github.com/decentralized-identity/fuzzy-encryption/blob/master/fuzzy-encryption-construction.pdf
