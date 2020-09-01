@@ -128,9 +128,9 @@ Personal information can be stored in various places: locally or at various onli
 
 ### 5.2 Subject Identifier
 
-*** Warning *** A strict "key ID" as defined in [OIDC] will not work with this defition of the sub. But a work around is possible for sites that must deal with both defintions since a straight "Key id" already excludes a colon (":").
+*** Warning *** A strict "key ID" as defined in [OIDC] section 7 will not work with this definition of the sub. But a work around is possible for sites that must deal with both defintions since a straight "Key id" already excludes a colon (":").
 
-The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key ID which makes it different than any other part of the spec. This document proposes to redefine the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}.  Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to refer to the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
+This document defines the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}.  Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to be compatible with the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
