@@ -37,9 +37,24 @@ capitals, as shown here.
 ## 1. Scope
 
 This document specifies the methods for an application to:
-* support self-issued identifiers in an OpenID Connect environment, section 7 of the [OIDC].
+* support self-issued identifiers in an OpenID Connect environment.
 * enable a strong identifier that can survive changes to current authentication methods.
 * format tokens that are bound to the issuer and recipient. (It does not support bearer tokens)
+
+### 1.1 Overview
+
+This document describes an extension to the [OIDC], with particular attention to section 7 on self-issued identifiers.
+
+The OpenID Connect protocol for Self-Issued Identifiers follows these steps.
+##### 1 The optional RP discovery endpoint may provide information about the method it supports.
+##### 2 The user agent may query the RP discovery endpoint to learn about polcies and methods of the RP.
+##### 3 The user browser natigates to the RP an selects to the "Personal Identifer" options on the RP web site.
+##### 4 The RP responds with a messaged directed to the User Agent via the browser.
+##### 5 The User Agent may query the user for consent
+##### 6 The user slects any options on information to be provided to the RP.
+##### 7 The user agent sends a identity Token to the RP
+##### 8 The user - RP interchange continues on the user browser.
+
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -117,9 +132,23 @@ The existing [OIDC] core spec makes the SUB in the self-issued section 7 a key I
 
 OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
-### 5.3 Redirection Methods
+### 5.3 Discovery of Relying Party Methods
+
+Note that the user will typically approach the Relying Party with their browser. In the best case the user can understand the policies and methods of the Relying Party before they user clicks on any link on the Relying Party web site that would cause an authentication process to commence. Also note that the User Agent will not send any user information to the  Relying Party without asking for user consent first.
+
+#### 5.3.1 Default Methods
 
 The other potential extension would allow the use of a different redirection method in place of, or as well as, the OPENID:// in the core spec section 7.3. This would require the user's OP to provide discovery in some sense prior to the client sending the request to the user.
+
+#### 5.3.2 User query of Relying Party Methods
+
+The Relying Part MAY provide a discovery endpoint where the user agent can discover methods beyound that provided in the default methods.
+
+TK
+
+### 5.5 Request from the Relying Party to the User Agent
+
+
 
 ### 5.4 Recovery
 
