@@ -161,7 +161,7 @@ This specification assumes that the user has continuing needs to use their ident
 * 4 The user wishes to enable more than one authenticator to access their resources.
 * 5 The identifier method has become obsolete or no longer supported.
 
-For these or any other reason the user needs to enable a different key and bind that key to their resources. This document is designed to provide secure means for that recovery.
+For these or any other reason the user needs to enable a different key and bind that key to their resources. Recovery  of access uses the same process as identity theft which makes it similar to sim swapping to gain access to a user's phone number, which is often used in identify proofing. This document is designed to provide secure means for that recovery without increasing the risk of identity theft.
 
 Note that recovery of the user access, which is the topic of this specification, may also be a part of a larger process that includes the recovery of user data.
 
@@ -171,7 +171,7 @@ Some thoughts:
 * Key is contained in a removable data store and can be restored if the user is authenticated.
 * Key could be shared between multiple user devices and any one could back up the other. (Android already enables this.)
 * A Seed can be used to create the key see examples in: [Emtrust], [SeedQuest] and [DCM],
-* WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decrytption key for user secret.
+* WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decryption key for user secret.
 * OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
 * Include the WebAuthn credentialID in the did document as part of bootstrapping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradley)
 * A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault].
@@ -218,7 +218,7 @@ The current jwt format would remain as the required format, but others could be 
 
 # 6. Security Considerations
 
-TK
+Control of a user's own identity puts great power into the hands of a user. The flip side of that is with great power comes great responsibility. We know that user's don't spend much time thinking about the security of normal evey day activity and can be fooled by simple scam attacks into releasing private information. The same will be true of self-issued identifiers, so it is important that any method for issuing an identifier help the user to maintain or recover control.
 
 # 7. Privacy Considerations
 
