@@ -21,7 +21,6 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 ## Introduction
 
 
-
 ### Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -53,7 +52,7 @@ The OpenID Connect protocol for Self-Issued Identifiers follows these steps.
 ##### 5 The User Agent may query the user for consent
 ##### 6 The user selects any options on information to be provided to the RP.
 ##### 7 The user agent sends a identity Token to the RP
-##### 8 The user - RP interchange continues on the user browser.
+##### 8 The user - RP interchange continues in the user browser.
 
 
 ## 2. Normative references
@@ -62,20 +61,23 @@ The following referenced documents are indispensable for the application of this
 [BCP14] - Key words for use in RFCs to Indicate Requirement Levels
 [BCP14]: https://tools.ietf.org/html/bcp14
 
-[RFC6749] - The OAuth 2.0 Authorization Framework
-[RFC6749]: https://tools.ietf.org/html/rfc6749
+[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
+[BCP195]: https://tools.ietf.org/html/bcp195
 
 [BCP212] - OAuth 2.0 for Native Apps
 [BCP212]: https://tools.ietf.org/html/bcp212
+
+[DID-CORE] - Decentralized Identifiers (DIDs) v1.0. Drummond Reed + 5, 2020-07-31. W3C Working Draft.
+[DID-CORE]: https://www.w3.org/TR/did-core/
+
+[RFC6749] - The OAuth 2.0 Authorization Framework
+[RFC6749]: https://tools.ietf.org/html/rfc6749
 
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
 
 [RFC8259] - The JavaScript Object Notation (JSON) Data Interchange Format
 [RFC8259]: https://datatracker.ietf.org/doc/rfc8259/
-
-[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[BCP195]: https://tools.ietf.org/html/bcp195
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: https://openid.net/specs/openid-connect-core-1_0.html
@@ -85,9 +87,6 @@ The following referenced documents are indispensable for the application of this
 
 [OpenID.Registration] - OpenID Connect Registration 1.0
 [OpenID.Registration]: http://openid.net/specs/openid-connect-registration-1_0.html
-
-[MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
 [JWT] - JSON Web Token
 [JWT]: http://tools.ietf.org/html/draft-ietf-oauth-json-web-token
@@ -113,6 +112,10 @@ For the purpose of this document, the terms defined in [RFC6749] and [OpenID Con
 
 **CP** - any of Claim Provider, Certificate Provider, Credential Service Provider
 
+**DID** - Decentralized Identifier from [DID-CORE]
+
+**DID Document** - DID Document from [DID-CORE]
+
 **HTTP** - Hyper Text Transfer Protocol
 
 **TLS** - Transport Layer Security
@@ -128,7 +131,7 @@ Personal information can be stored in various places: locally or at various onli
 
 ### 5.2 Subject Identifier
 
-*** Warning *** A strict "key ID" as defined in [OIDC] section 7 will not work with this definition of the sub. But a work around is possible for sites that must deal with both defintions since a straight "Key id" already excludes a colon (":").
+*** Warning *** A strict "key ID" as defined in [OIDC] section 7 will not work with this definition of the sub. But a work around is possible for sites that must deal with both definitions since a straight "Key id" already excludes a colon (":").
 
 This document defines the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}.  Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to be compatible with the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
@@ -136,7 +139,7 @@ OpenID Self Issued Identifiers provides a way for a user to exercise fine graine
 
 ### 5.3 Discovery of Relying Party Methods
 
-Note that the user will typically approach the Relying Party with their browser. In the best case the user can understand the policies and methods of the Relying Party before they user clicks on any link on the Relying Party web site that would cause an authentication process to commence. Also note that the User Agent will not send any user information to the  Relying Party without asking for user consent first.
+Note that the user will typically approach the Relying Party with their browser. In the best case the user can understand the policies and methods of the Relying Party before they user clicks on any link on the Relying Party web site that would cause an authentication process to commence. Also note that the User Agent will not send any user information to the Relying Party without asking for user consent first.
 
 #### 5.3.1 Default Methods
 
@@ -150,7 +153,7 @@ TK
 
 ### 5.4 Request from the Relying Party to the User Agent
 
-
+TK
 
 ### 5.5 Recovery
 
@@ -161,7 +164,7 @@ This specification assumes that the user has continuing needs to use their ident
 * 4 The user wishes to enable more than one authenticator to access their resources.
 * 5 The identifier method has become obsolete or no longer supported.
 
-For these or any other reason the user needs to enable a different key and bind that key to their resources. Recovery  of access uses the same process as identity theft which makes it similar to sim swapping to gain access to a user's phone number, which is often used in identify proofing. This document is designed to provide secure means for that recovery without increasing the risk of identity theft.
+For these or any other reason the user needs to enable a different key and bind that key to their resources. Recovery of access uses the same process as identity theft which makes it similar to sim swapping to gain access to a user's phone number, which is often used in identify proofing. This document is designed to provide secure means for that recovery without increasing the risk of identity theft.
 
 Note that recovery of the user access, which is the topic of this specification, may also be a part of a larger process that includes the recovery of user data.
 
@@ -210,31 +213,43 @@ The only flow considered in the core spec is implicit, where the user device sen
 
 An alternate flow is the device flow where the user is operating on a large form device (like a laptop) using their phone as an authenticator.
 
-### 5.7 Formats
-The current jwt format would remain as the required format, but others could be standardized including:
-* json-ld
-* cbor
-* cbor-ld. https://docs.google.com/presentation/d/1ksh-gUdjJJwDpdleasvs9aRXEmeRvqhkVWqeitx5ZAE/edit#slide=id.gc6f9e470d_0_0
+# 6. Discovery
 
-# 6. Security Considerations
+This specification assumes the following OP discovery metadata:
+"id_token_signing_alg_values_supported": ["RS256"],
+"request_object_signing_alg_values_supported": ["none", "RS256"]
+The DID AuthN profile assumes the following OP discovery metadata:
+"id_token_signing_alg_values_supported": ["RS256", "ES256K", "EdDSA"],
+"request_object_signing_alg_values_supported":
+   ["none", "RS256", "ES256K", "EdDSA"]
+This change will allow DID AuthN enabled RPs to use additional signature algorithms commonly used amongst members of the SSI community.
 
-Control of a user's own identity puts great power into the hands of a user. The flip side of that is with great power comes great responsibility. We know that user's don't spend much time thinking about the security of normal evey day activity and can be fooled by simple scam attacks into releasing private information. The same will be true of self-issued identifiers, so it is important that any method for issuing an identifier help the user to maintain or recover control.
+# 7. User Experience Considerations
 
-# 7. Privacy Considerations
+This section is non-normative.
+
+[OIDC] uses the custom URL scheme openid://. Mobile browsers would open the app that registered that scheme. Desktop browser extensions/ plugins have support for similar functionality. It is out of the scope of the spec under which circumstances a QR code will be rendered. One option will be to provide the QR code if the user is using the desktop browser, and no browser extension/ plugin is available.
+
+On Android, the user can choose which app should open if multiple apps registered the same custom URL scheme. On iOS, the behavior is undefined. One approach would be to check if the user is on an iOS device and then, will not render the button if this is a concern. A fallback on iOS could be the use of custom mime types, but unusual UX has to be considered. Note, this issue is not specific to SIOP only but affects all apps using custom URL schemes. In case a QR Code is used where the user has to open the app first and has to scan the QR Code, this issue is mitigated.
+
+# 8. Security Considerations
+
+Control of a user's own identity puts great power into the hands of a user. The flip side of that is with great power comes great responsibility. We know that users do not spend much time thinking about the security of normal everyday activity and can be fooled by simple scam attacks into releasing private information. The same will be true of self-issued identifiers, so it is important that any method for issuing an identifier help the user to maintain or recover control.
+
+
+# 9. Privacy Considerations
 
 The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets. (question, should pls or alternate be MUST?)
 
-# 8. IANA Considerations
+# 10. IANA Considerations
 * puid -  as an element
 * guid - as a URI
 
-# 9. References
-## 9.1 Normative References
+# 11. References
 
-[DID-CORE] - Decentralized Identifiers (DIDs) v1.0. Drummond Reed + 5, 2020-07-31. W3C Working Draft.
-[DID-CORE]: https://www.w3.org/TR/did-core/
+## 11.1 Normative References
 
-## 9.2 Non-normative References
+## 11.2 Non-normative References
 
 [Did Recovery] - DIF I&D WG: Starting work on cryptographic secret recovery
 [Did Recovery]: https://medium.com/decentralized-identity/dif-id-wg-starting-work-on-cryptographic-secret-recovery-204117b6a2ab
