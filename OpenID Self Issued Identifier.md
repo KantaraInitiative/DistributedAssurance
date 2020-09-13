@@ -197,17 +197,25 @@ Resolution of the PUID into a set of current keys and authenticators -- is a nic
 
 Note that one other interpretation of the PUID is a "Previously Used ID" which could help with recovery efforts where major parts of the SUB where changed. For Example from did:method_1:{unique ID} to did:method_2:{unique ID} for the case where the {unique ID} might be invariant.
 
-### 5.5 Token Niblet (searching for an acceptable alternative name)
+### 5.6 Signed Claims
 
-A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but should probably be discouraged. The header of the token niblet must identify the signer and cryptography used. This has the same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A token niblet is always treated like a string in the enclosing jwt.
+A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but is NOT RECOMMENDED. The header of the jose token must identify the signer and cryptography used. This has the same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A signed jose token is always treated like a string in the enclosing jwt. There are two distinct type of signed claims.
 
-### 5.6 IdToken
+#### 5.6.1 General Claims
+
+These claims can be about issues that are not bound to the client or the subject. Examples of this type of claim are the mobile authentication assurance claim about the user agent or a proof-of-presence claim made by the user agent about the contemporaneous session between the user and the user agent.
+
+#### 5.6.2 Client Bound Claims
+
+When a session is created between the user agent and the client, the sub field may be a pairwise binding from this user agent to the targeted client. In that case the claim may need to be generated during the current session between the two, or a cached claim that was created during a prior interaction. The header of the jose structure will reference the sub field in this case and the signature will be from the key of that sub.
+
+### 5.7 IdToken
 
 This is the only token created by a User Agent to carry identifier information for a user. It is based on the [OIDC] IdToken and includes all of the mandatory fields from that token. In this specification it is always signed by the key identified in the sub element and always sent as a jose token. It may optionally be encrypted.
 
 The concept of ephemeral id endpoint for temporary storage of iID Tokens as well as the use of references to ID Tokens needs to be discussed.
 
-### 5.7 Flows
+### 5.8 Flows
 
 The only flow considered in the core spec is implicit, where the user device sends a single ID Token that is the sum of all the claims or grants that a user is providing the RP.
 
