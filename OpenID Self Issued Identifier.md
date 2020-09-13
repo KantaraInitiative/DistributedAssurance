@@ -42,7 +42,7 @@ This document specifies the methods for an application to:
 
 ### 1.1 Overview
 
-This document describes an extension to the [OIDC], with particular attention to section 7 on self-issued identifiers.
+This document describes an extension to the [OIDC], with particular attention to section 7 on self-issued identifiers. It is designed for maximum compatibility with [SIOP].
 
 The OpenID Connect protocol for Self-Issued Identifiers follows these steps.
 ##### 1 The optional RP discovery endpoint may provide information about the method it supports.
@@ -157,7 +157,7 @@ TK
 
 ### 5.5 Recovery
 
-This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. More description can be found in this description of [Did Recovery]. The following are some of the known ways that loss of use of an authentication factor can occur:
+This specification assumes that the user has continuing needs to use their identifiers to access their personal resources, even as the authentication factors become obsolete or are lost. More description can be found in this description of [Did Recovery] or this for [Regeneration]. The following are some of the known ways that loss of use of an authentication factor can occur:
 * 1 The device holding the authentication factor is lost.
 * 2 The algorithm or key strength is declared obsolete or unable to continue to protect the user's authentication factors.
 * 3 A key has become compromised or is otherwise no longer usable.
@@ -177,7 +177,7 @@ Some thoughts:
 * WebAuthn dual PRF function that takes two salts are returns two keys, use that with 2FA to get decryption key for user secret.
 * OpenID Moderna Account forward spec OpenID Connect Account Porting https://openid.net/specs/openid-connect-account-porting-1_0.html also requires a trusted server.
 * Include the WebAuthn credentialID in the did document as part of bootstrapping info. Only the person with the authenticator would be able to decrypt the user secrets into the wallet. (John Bradley)
-* A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault].
+* A collection of pictures (or phrases) could be presented to the user until the key data was fully recovered. (No small number of matches would suffice.) One example is [Fuzzy Vault]. Another is Account Recovery with Expanded Password System [Regeneration].
 * A set of biometric data can be used to grant access as described in [Horcrux].
 * A new key could be generated and bound to the user's ID. This would require assistance from a trusted server as well as some helper authentication factors.
 
@@ -199,7 +199,7 @@ Note that one other interpretation of the PUID is a "Previously Used ID" which c
 
 ### 5.5 Token Niblet (searching for an acceptable alternative name)
 
-A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but should probably be discouraged. The header of the token niblet must identify the signer and cryptography used. This has he same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A token niblet is always treated like a string in the enclosing jwt.
+A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but should probably be discouraged. The header of the token niblet must identify the signer and cryptography used. This has the same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A token niblet is always treated like a string in the enclosing jwt.
 
 ### 5.6 IdToken
 
@@ -257,8 +257,14 @@ The user interchanges that carry user private information must be encrypted. Thi
 [DIF] - Digital Identity Foundation.
 [DIF]: https://identity.foundation/
 
+[SIOP] – Oliver Terbu ed., Self-Issued OpenID Connect Provider DID Profile
+[SIOP]: https://identity.foundation/did-siop/
+
 [Fuzzy Vault] - Fuzzy Vault Encryption (contributed by Microsoft)
 [Fuzzy Vault]: https://github.com/decentralized-identity/fuzzy-encryption/blob/master/fuzzy-encryption-construction.pdf
+
+[Regeneration] – Hitoshi Kokumai,  Account Recovery with Expanded Password System
+[Regeneration]: https://medium.com/@kokumai/account-recovery-with-expanded-password-system-c8766a194cca
 
 [Horcrux] - Horcrux Protocol (contributed by VeridiumID)
 [Horcrux]: https://github.com/decentralized-identity/horcrux/
