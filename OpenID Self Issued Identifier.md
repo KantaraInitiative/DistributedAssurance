@@ -133,9 +133,9 @@ Personal information can be stored in various places: locally or at various onli
 
 *** Warning *** A strict "key ID" as defined in [OIDC] section 7 will not work with this definition of the sub. But a work around is possible for sites that must deal with both definitions since a straight "Key id" already excludes a colon (":").
 
-This document defines the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}.  Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to be compatible with the [DID-CORE]. Any URL must provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
+This document defines the SUB as a URI (or URL) that can still use a local key, the RECOMMENDED syntax for a local key ID is data:{key id}.  Now any URL can be used to allow the SUB to serve as a real subject ID. In particular this allows a `did:` URL prefix to be compatible with the [DID-CORE]. Any URL MUST provide a method to securely recover the key(s) that are used to sign this [OIDC] JWT.
 
-OpenID Self Issued Identifiers provides a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
+OpenID Self Issued Identifiers provide a way for a user to exercise fine grained control over who can see their identifier as well as have access to their personal resources even as their current authenticators become inadequate to the task for any reason.
 
 ### 5.3 Discovery of Relying Party Methods
 
@@ -143,7 +143,18 @@ Note that the user will typically approach the Relying Party with their browser.
 
 #### 5.3.1 Default Methods
 
-The other potential extension would allow the use of a different redirection method in place of, or as well as, the OPENID:// in the core spec section 7.3. This would require the user's OP to provide discovery in some sense prior to the client sending the request to the user.
+An HTTP extension “Personal” would allow the use of a different redirection method in place of, or as well as, the OPENID:// defined in the [OIDC] core sped section 7.3. At the time of publication this section requires the user to add a browser extension to enable this header or select a user agent that will send the header.
+
+Syntax for the Personal Header:
+
+Personal: version, method encoded as base64url.
+
+The version is a REQUIRED string, to be “1.0”, from this spec.
+The method is optional but MUST be base64url encoded if present. 
+
+<<<<----- to be removed - use 0.1 test value before publication ---->>>>
+
+If the header is not present and the OPENID:// method is not enabled by the browser the user MUST be warned to expect an odd search result display by browsers until the search engines are primed with a more user friendly response.
 
 #### 5.3.2 User query of Relying Party Methods
 
@@ -191,7 +202,7 @@ The following helper functions can be used to enable recovery when a trusted ser
 
 The [OIDC] specification defines the format of the subject ID [sub] to be a type of key id. That can be used for the life of the key, but when any of the above recovery conditions are triggered the user that wants to have continued access to the resources that were bound to that key must have some means to seamlessly maintain that access.
 
-Wherever a self-issued ID meets the requirement for recovery, it will be carried in the transmission packets as a [puid]. The data in the field must be structured as a URL or URI. The intention is that the [puid] would survive any of the recovery conditions listed in section 5.2. It is possible that the nature of the PUID binds it to authentication methods that become compromised or obsoleted. In that case it may not be possible for the PUID to be reused.
+Wherever a self-issued ID meets the requirement for recovery, it will be carried in the transmission packets as a [puid]. The data in the field MUST be structured as a URL or URI. The intention is that the [puid] would survive any of the recovery conditions listed in section 5.2. It is possible that the nature of the PUID binds it to authentication methods that become compromised or obsoleted. In that case it may not be possible for the PUID to be reused.
 
 Resolution of the PUID into a set of current keys and authenticators -- is a nice to have, but is it required for this purpose??
 
@@ -199,7 +210,7 @@ Note that one other interpretation of the PUID is a "Previously Used ID" which c
 
 ### 5.6 Signed Claims
 
-A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but is NOT RECOMMENDED. The header of the jose token must identify the signer and cryptography used. This has the same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A signed jose token is always treated like a string in the enclosing jwt. There are two distinct type of signed claims.
+A collection of attributes or other data elements and are collected together into a signed jose structure. Encryption may also be added but is NOT RECOMMENDED. The header of the jose token MUST identify the signer and cryptography used. This has the same structure as an encoded and signed jwt, but is intended to be embedded inside a jwt. A signed jose token is always treated like a string in the enclosing jwt. There are two distinct type of signed claims.
 
 #### 5.6.1 General Claims
 
@@ -247,11 +258,12 @@ Control of a user's own identity puts great power into the hands of a user. The 
 
 # 9. Privacy Considerations
 
-The user interchanges that carry user private information must be encrypted. This may be by TLS or by encrypted jose packets. (question, should pls or alternate be MUST?)
+The user interchanges that carry user private information MUST be encrypted. This may be by TLS or by encrypted jose packets. (question, should tls or alternate be MUST?)
 
 # 10. IANA Considerations
 * puid -  as an element
 * guid - as a URI
+* Personal – as an HTTP header
 
 # 11. References
 
